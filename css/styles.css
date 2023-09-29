@@ -212,6 +212,69 @@ a {
 }
 
 /*-------------------------- Movie-Details.html Styles ------------------------------*/
+.movie-details-container {
+  padding-inline: var(--outer-padding);
+  padding-block: var(--outer-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  height: calc(100vh - 6em);
+}
+
+.back-to-movies-btn-container button {
+  background-color: var(--color-primary);
+  border: none;
+  outline: 1px solid #fff;
+  color: inherit;
+  padding: 0.8em 1.8em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.back-to-movies-btn-container button:hover {
+  background-color: #a98b14;
+  text-decoration: underline;
+}
+
+.details-container {
+  display: flex;
+  gap: 3em;
+  height: 100%;
+}
+
+.details-container .movie-image-container {
+  height: 100%;
+}
+
+.movie-image-container img {
+  height: 0;
+  min-height: max(300px, 100%);
+}
+
+.details-container > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding-block: 2em;
+}
+
+.details-container .movie-description {
+  text-align: justify;
+}
+
+.movie-genres-list {
+  list-style-type: none;
+}
+
+.genres-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.genres-container > p {
+  font-weight: 600;
+}
 
 /********************* FOOTER STYLES **********************/
 
