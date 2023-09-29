@@ -155,24 +155,32 @@ a {
 /* Popular Movies/TV-Shows Styles */
 
 .popular-movies,
-.popular-shows {
+.popular-shows,
+.query-results {
   padding-inline: var(--outer-padding);
 }
 
 .popular-movies-container,
-.popular-shows-container {
+.popular-shows-container,
+.query-results-container {
   display: flex;
   flex-direction: column;
   gap: 1em;
   margin-bottom: 1em;
 }
 
-:is(.popular-movies-container, .popular-shows-container) h2 {
+:is(
+    .popular-movies-container,
+    .popular-shows-container,
+    .query-results-container
+  )
+  h2 {
   text-align: center;
 }
 
 .movie-cards-container,
-.show-cards-container {
+.show-cards-container,
+.query-result-cards-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1em;
@@ -308,7 +316,8 @@ a {
 
 @media (min-width: 1200px) {
   .movie-cards-container,
-  .show-cards-container {
+  .show-cards-container,
+  .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: 450px;
@@ -319,7 +328,8 @@ a {
 }
 @media (max-width: 1200px) {
   .movie-cards-container,
-  .show-cards-container {
+  .show-cards-container,
+  .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 400px;
@@ -331,7 +341,8 @@ a {
 
 @media (max-width: 900px) {
   .movie-cards-container,
-  .show-cards-container {
+  .show-cards-container,
+  .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 400px;
@@ -340,7 +351,8 @@ a {
     height: 85%;
   }
   .movie-details-container,
-  .show-details-container {
+  .show-details-container,
+  .query-result-cards-container {
     height: fit-content;
   }
   .details-container {
@@ -360,7 +372,8 @@ a {
 
 @media (max-width: 700px) {
   .movie-cards-container,
-  .show-cards-container {
+  .show-cards-container,
+  .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 400px;
@@ -372,7 +385,8 @@ a {
 
 @media (max-width: 250px) {
   .movie-cards-container,
-  .show-cards-container {
+  .show-cards-container,
+  .query-result-cards-container {
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: max-content;
