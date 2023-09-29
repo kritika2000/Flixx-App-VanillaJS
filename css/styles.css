@@ -78,7 +78,7 @@ a {
   min-height: calc(100vh - 160px);
 }
 
-/*-------------------------- Index.html Styles ------------------------------*/
+/*-------------------------- Index.html/shows.html Styles ------------------------------*/
 /* Now Playing Sections Styles */
 
 .now-playing-container {
@@ -211,17 +211,18 @@ a {
   font-size: 0.9em;
 }
 
-/*-------------------------- Movie-Details.html Styles ------------------------------*/
-.movie-details-container {
+/*-------------------------- Movie-Details.html/TV-Details Styles ------------------------------*/
+.movie-details-container,
+.show-details-container {
   padding-inline: var(--outer-padding);
   padding-block: var(--outer-padding);
   display: flex;
   flex-direction: column;
   gap: 2em;
-  height: calc(100vh - 6em);
+  height: calc(100vh - 160px);
 }
 
-.back-to-movies-btn-container button {
+:is(.back-to-movies-btn-container, .back-to-shows-btn-container) button {
   background-color: var(--color-primary);
   border: none;
   outline: 1px solid #fff;
@@ -231,7 +232,7 @@ a {
   font-size: 0.9em;
 }
 
-.back-to-movies-btn-container button:hover {
+:is(.back-to-movies-btn-container, .back-to-shows-btn-container) button:hover {
   background-color: #a98b14;
   text-decoration: underline;
 }
@@ -242,11 +243,13 @@ a {
   height: 100%;
 }
 
-.details-container .movie-image-container {
+.details-container .movie-image-container,
+.details-container .show-image-container {
   height: 100%;
 }
 
-.movie-image-container img {
+.movie-image-container img,
+.show-image-container img {
   height: 0;
   min-height: max(300px, 100%);
 }
@@ -258,11 +261,13 @@ a {
   padding-block: 2em;
 }
 
-.details-container .movie-description {
+.details-container .movie-description,
+.details-container .show-description {
   text-align: justify;
 }
 
-.movie-genres-list {
+.movie-genres-list,
+.show-genres-list {
   list-style-type: none;
 }
 
@@ -334,7 +339,8 @@ a {
   .card img {
     height: 85%;
   }
-  .movie-details-container {
+  .movie-details-container,
+  .show-details-container {
     height: fit-content;
   }
   .details-container {
@@ -343,7 +349,8 @@ a {
     gap: 2em;
     height: 100%;
   }
-  .details-container .movie-image-container {
+  .details-container .movie-image-container,
+  .details-container .show-image-container {
     height: 350px;
   }
   .details-container > div:last-child {
