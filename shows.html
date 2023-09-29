@@ -24,7 +24,97 @@
           </ul>
         </nav>
       </header>
-      <main class="main--container"></main>
+      <main class="main--container">
+        <div class="home--container">
+          <!-- Now Playing Section -->
+          <section class="now-playing">
+            <div class="now-playing-container">
+              <h2>Now Playing</h2>
+              <div class="now-playing-slider"></div>
+            </div>
+          </section>
+
+          <!-- Search Movies Section -->
+          <section class="search-movies">
+            <div class="search-movies-container">
+              <form>
+                <div class="radio-controls-container">
+                  <input type="radio" name="type" id="movies" value="movies" />
+                  <label for="movies">Movies</label>
+                  <input
+                    type="radio"
+                    name="type"
+                    id="tv-shows"
+                    value="tv-shows"
+                    checked
+                  />
+                  <label for="tv-shows">TV Shows</label>
+                </div>
+                <div class="search-query-container">
+                  <input
+                    type="text"
+                    name="search-query"
+                    id="search-query"
+                    placeholder="Enter search query"
+                  />
+                  <button class="search-btn" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Popular TV Shows -->
+          <section class="popular-shows">
+            <div class="popular-shows-container">
+              <h2>Popular TV Shows</h2>
+              <div class="show-cards-container">
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+                <div class="card">
+                  <img src="./images/no-image.jpg" />
+                  <p>Show Title</p>
+                  <p>Release: xx/xx/xxxx</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
       <footer class="footer--container">
         <div class="logo"><span>FLIXX</span></div>
         <div class="social-links">
