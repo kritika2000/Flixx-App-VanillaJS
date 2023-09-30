@@ -51,6 +51,12 @@ a {
   font-weight: 500;
 }
 
+.active {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
 .header--container .logo:hover {
   text-decoration: underline;
 }
@@ -166,7 +172,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+  min-height: 300px;
 }
 
 :is(
@@ -289,6 +296,24 @@ a {
   font-weight: 600;
 }
 
+/**************************** SPINNER STYLES ******************************/
+.spinner {
+  align-self: center;
+  justify-self: center;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
 /********************* FOOTER STYLES **********************/
 
 .footer--container {
@@ -320,7 +345,7 @@ a {
   .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: 450px;
+    grid-auto-rows: minmax(450px, fit-content);
   }
   .card img {
     height: 85%;
@@ -332,7 +357,7 @@ a {
   .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 400px;
+    grid-auto-rows: minmax(400px, fit-content);
   }
   .card img {
     height: 85%;
@@ -345,7 +370,7 @@ a {
   .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 400px;
+    grid-auto-rows: minmax(400px, fit-content);
   }
   .card img {
     height: 85%;
@@ -376,7 +401,7 @@ a {
   .query-result-cards-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 400px;
+    grid-auto-rows: minmax(400px, fit-content);
   }
   .card img {
     height: 85%;
