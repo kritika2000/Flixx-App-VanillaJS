@@ -22,14 +22,14 @@ function highlightActiveLink() {
 function showErrorMessage() {}
 
 // Show Spinner
-function showSpinner(container) {
-  const spinner = container.children[1];
+function showSpinner() {
+  const spinner = document.querySelector('.spinner');
   spinner.classList.add('show');
 }
 
 // Hide Spinner
-function hideSpinner(container) {
-  const spinner = container.children[1];
+function hideSpinner() {
+  const spinner = document.querySelector('.spinner');
   spinner.classList.add('hide');
 }
 
@@ -48,6 +48,7 @@ async function fetchData(endpoint, params = {}) {
   return data;
 }
 
+// Display All Movies
 function displayMovies(movies) {
   movies.forEach((movie) => {
     // Creating Elements
@@ -58,6 +59,7 @@ function displayMovies(movies) {
     const [year, month, day] = movie.release_date.split('-');
 
     // Setting Attributes
+    card.setAttribute('id', movie.id);
     card.classList.add('card');
     img.setAttribute(
       'src',
@@ -73,8 +75,96 @@ function displayMovies(movies) {
     card.appendChild(title);
     card.appendChild(releaseDate);
     document.querySelector('.movie-cards-container').appendChild(card);
+    document
+      .querySelector('.movie-cards-container')
+      .addEventListener('click', displayMovieDetails);
   });
 }
+
+// Display Movie Detail
+async function displayMovieDetails(e) {
+  showSpinner();
+  let movieId = '';
+  if (e) {
+    if (!e.target.nodeName === 'UL') return;
+    movieId = e.target.classList.contains('card')
+      ? e.target.getAttribute('id')
+      : e.target.parentElement.getAttribute('id');
+    window.location = `movie-details.html?id=${movieId}`;
+  } else {
+    movieId = window.location.search.split('=')[1];
+  }
+  try {
+    const { title, overview, genres, poster_path, release_date } =
+      await fetchData(`/movie/${movieId}`);
+    hideSpinner();
+    const [year, month, day] = release_date.split('-');
+    // Get Elements
+    const detailsContainer = document.querySelector('.details-container');
+    document
+      .querySelector('.back-to-shows-btn-container')
+      .addEventListener('click', () => window.history.back());
+    // Creating Elements
+    const movieImageContainer = document.createElement('div');
+    const image = document.createElement('img');
+    const div = document.createElement('div');
+    const heading2 = document.createElement('h2');
+    const movieRating = document.createElement('div');
+    const icon = document.createElement('i');
+    const releaseDate = document.createElement('p');
+    const movieDescription = document.createElement('p');
+    const genresContainer = document.createElement('div');
+    const movieGenres = document.createElement('p');
+    const movieGenresList = document.createElement('ul');
+    const genresItem1 = document.createElement('li');
+    const genresItem2 = document.createElement('li');
+    const genresItem3 = document.createElement('li');
+
+    // Setting Attributes
+    movieImageContainer.setAttribute('class', 'movie-image-container');
+    image.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
+    image.setAttribute('alt', 'Movie Image');
+    movieRating.setAttribute('class', 'movie-rating');
+    icon.setAttribute('class', 'fa fa-solid fa-star');
+    icon.style.color = 'gold';
+    releaseDate.setAttribute('class', 'release-date');
+    movieDescription.setAttribute('class', 'movie-description');
+    genresContainer.setAttribute('class', 'genres-container');
+    movieGenres.setAttribute('class', 'genres');
+    movieGenresList.setAttribute('class', 'movie-genres-list');
+    genresItem1.setAttribute('class', 'genres-item');
+    genresItem2.setAttribute('class', 'genres-item');
+    genresItem3.setAttribute('class', 'genres-item');
+
+    // Setting Content
+    heading2.textContent = title;
+    releaseDate.textContent = `Release Date: ${day}/${month}/${year}`;
+    movieDescription.textContent = overview;
+    movieGenres.textContent = 'Genres';
+    genresItem1.textContent = genres[0].name;
+    genresItem2.textContent = genres[1].name;
+    genresItem3.textContent = genres[2].name;
+
+    // Appending Elements
+    movieImageContainer.appendChild(image);
+    movieRating.append(icon, '8/10');
+    movieGenresList.appendChild(genresItem1);
+    movieGenresList.appendChild(genresItem2);
+    movieGenresList.appendChild(genresItem3);
+    genresContainer.appendChild(movieGenres);
+    genresContainer.appendChild(movieGenresList);
+    detailsContainer.appendChild(movieImageContainer);
+    detailsContainer.appendChild(heading2);
+    detailsContainer.appendChild(movieRating);
+    detailsContainer.appendChild(releaseDate);
+    detailsContainer.appendChild(movieDescription);
+    detailsContainer.appendChild(genresContainer);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Display All TV Shows
 function displayTVShows(shows) {
   shows.forEach((show) => {
     // Creating Elements
@@ -85,6 +175,7 @@ function displayTVShows(shows) {
     const [year, month, day] = show.first_air_date.split('-');
 
     // Setting Attributes
+    card.setAttribute('id', show.id);
     card.classList.add('card');
     img.setAttribute(
       'src',
@@ -100,19 +191,81 @@ function displayTVShows(shows) {
     card.appendChild(title);
     card.appendChild(releaseDate);
     document.querySelector('.show-cards-container').appendChild(card);
+    document
+      .querySelector('.show-cards-container')
+      .addEventListener('click', displayTVShowDetails);
   });
+}
+
+// Display TV Show Details
+async function displayTVShowDetails(e) {
+  showSpinner();
+  let showId = '';
+  if (e) {
+    if (!e.target.nodeName === 'UL') return;
+    showId = e.target.classList.contains('card')
+      ? e.target.getAttribute('id')
+      : e.target.parentElement.getAttribute('id');
+    window.location = `tv-details.html?id=${showId}`;
+  } else {
+    showId = window.location.search.split('=')[1];
+  }
+  try {
+    const { name, overview, poster_path, first_air_date } = await fetchData(
+      `/tv/${showId}`
+    );
+    hideSpinner();
+    const [year, month, day] = first_air_date.split('-');
+    // Get Elements
+    const detailsContainer = document.querySelector('.details-container');
+    document
+      .querySelector('.back-to-shows-btn-container')
+      .addEventListener('click', () => window.history.back());
+    // Creating Elements
+    const showImageContainer = document.createElement('div');
+    const image = document.createElement('img');
+    const div = document.createElement('div');
+    const heading2 = document.createElement('h2');
+    const showRating = document.createElement('div');
+    const icon = document.createElement('i');
+    const releaseDate = document.createElement('p');
+    const showDescription = document.createElement('p');
+
+    // Setting Attributes
+    showImageContainer.setAttribute('class', 'show-image-container');
+    image.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
+    image.setAttribute('alt', 'Show Image');
+    showRating.setAttribute('class', 'show-rating');
+    icon.setAttribute('class', 'fa fa-solid fa-star');
+    icon.style.color = 'gold';
+    releaseDate.setAttribute('class', 'release-date');
+    showDescription.setAttribute('class', 'show-description');
+
+    // Setting Content
+    heading2.textContent = name;
+    releaseDate.textContent = `Release Date: ${day}/${month}/${year}`;
+    showDescription.textContent = overview;
+
+    // Appending Elements
+    showImageContainer.appendChild(image);
+    showRating.append(icon, '8/10');
+    detailsContainer.appendChild(showImageContainer);
+    detailsContainer.appendChild(heading2);
+    detailsContainer.appendChild(showRating);
+    detailsContainer.appendChild(releaseDate);
+    detailsContainer.appendChild(showDescription);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // Script for Home/Movies
 async function initMovies() {
-  const popularMoviesContainer = document.querySelector(
-    '.popular-movies-container'
-  );
-  showSpinner(popularMoviesContainer);
+  showSpinner();
   try {
     setTimeout(async () => {
       const { results: movies } = await fetchData('/movie/popular');
-      hideSpinner(popularMoviesContainer);
+      hideSpinner();
       displayMovies(movies);
     }, 1000);
   } catch (err) {
@@ -122,15 +275,12 @@ async function initMovies() {
 
 // Script for Shows
 async function initTVShows() {
-  const popularShowsContainer = document.querySelector(
-    '.popular-shows-container'
-  );
-  showSpinner(popularShowsContainer);
+  showSpinner();
   try {
     setTimeout(async () => {
       const { results: shows } = await fetchData('/tv/popular');
       console.log(shows);
-      hideSpinner(popularShowsContainer);
+      hideSpinner();
       displayTVShows(shows);
     }, 1000);
   } catch (err) {
@@ -158,13 +308,15 @@ function init() {
       initTVShows();
       break;
     case '/movie-details.html':
-      initMovieDetails();
+      displayMovieDetails();
       break;
     case '/search.html':
+    case 'search':
       initSearch();
       break;
     case '/tv-details.html':
-      initTVDetails();
+    case '/tv-details':
+      displayTVShowDetails();
   }
   highlightActiveLink();
 }
