@@ -234,7 +234,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 2em;
-  height: calc(100vh - 160px);
+  height: fit-content;
+  /* height: calc(100vh - 160px); */
 }
 
 :is(.back-to-movies-btn-container, .back-to-shows-btn-container) button {
@@ -254,7 +255,8 @@ a {
 
 .details-container {
   display: flex;
-  gap: 3em;
+  flex-direction: column;
+  gap: 2em;
   height: 100%;
 }
 
@@ -365,6 +367,10 @@ a {
   .card img {
     height: 85%;
   }
+  .details-container .movie-image-container,
+  .details-container .show-image-container {
+    height: 350px;
+  }
 }
 @media (max-width: 1200px) {
   .movie-cards-container,
@@ -376,6 +382,10 @@ a {
   }
   .card img {
     height: 85%;
+  }
+  .details-container .movie-image-container,
+  .details-container .show-image-container {
+    height: 350px;
   }
 }
 
