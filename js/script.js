@@ -48,7 +48,22 @@ async function fetchData(endpoint, params = {}) {
   return data;
 }
 
-// Display All Movies
+/* ------------------------------ Add Background Image --------------------------------- */
+function addBackDropImage(imageUrl) {
+  const div = document.createElement('div');
+  div.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${imageUrl})`;
+  div.style.height = '100vh';
+  div.style.width = '100vw';
+  div.style.position = 'absolute';
+  div.style.backgroundSize = 'cover';
+  div.style.top = '0';
+  div.style.left = '0';
+  div.style.zIndex = '-1';
+  div.style.opacity = '0.1';
+  document.querySelector('.main--container').appendChild(div);
+}
+
+/* ------------------------Display Movies------------------------- */
 function displayMovies(movies) {
   movies.forEach((movie) => {
     // Creating Elements
@@ -81,7 +96,7 @@ function displayMovies(movies) {
   });
 }
 
-// Display Movie Detail
+/* ------------------------Display Movie Details------------------------- */
 async function displayMovieDetails(e) {
   showSpinner();
   let movieId = '';
@@ -95,14 +110,21 @@ async function displayMovieDetails(e) {
     movieId = window.location.search.split('=')[1];
   }
   try {
-    const { title, overview, genres, poster_path, release_date } =
-      await fetchData(`/movie/${movieId}`);
+    const {
+      title,
+      overview,
+      genres,
+      poster_path,
+      release_date,
+      vote_average,
+      backdrop_path,
+    } = await fetchData(`/movie/${movieId}`);
     hideSpinner();
     const [year, month, day] = release_date.split('-');
     // Get Elements
     const detailsContainer = document.querySelector('.details-container');
     document
-      .querySelector('.back-to-shows-btn-container')
+      .querySelector('.back-to-movies-btn-container')
       .addEventListener('click', () => window.history.back());
     // Creating Elements
     const movieImageContainer = document.createElement('div');
@@ -122,7 +144,12 @@ async function displayMovieDetails(e) {
 
     // Setting Attributes
     movieImageContainer.setAttribute('class', 'movie-image-container');
-    image.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
+    image.setAttribute(
+      'src',
+      poster_path
+        ? `https://image.tmdb.org/t/p/w500${poster_path}`
+        : './images/no-image.jpg'
+    );
     image.setAttribute('alt', 'Movie Image');
     movieRating.setAttribute('class', 'movie-rating');
     icon.setAttribute('class', 'fa fa-solid fa-star');
@@ -147,7 +174,7 @@ async function displayMovieDetails(e) {
 
     // Appending Elements
     movieImageContainer.appendChild(image);
-    movieRating.append(icon, '8/10');
+    movieRating.append(icon, `${vote_average.toFixed(1)}/10`);
     movieGenresList.appendChild(genresItem1);
     movieGenresList.appendChild(genresItem2);
     movieGenresList.appendChild(genresItem3);
@@ -159,12 +186,13 @@ async function displayMovieDetails(e) {
     detailsContainer.appendChild(releaseDate);
     detailsContainer.appendChild(movieDescription);
     detailsContainer.appendChild(genresContainer);
+    addBackDropImage(backdrop_path);
   } catch (err) {
     console.log(err);
   }
 }
 
-// Display All TV Shows
+/* ------------------------Display All TV Shows------------------------- */
 function displayTVShows(shows) {
   shows.forEach((show) => {
     // Creating Elements
@@ -197,7 +225,7 @@ function displayTVShows(shows) {
   });
 }
 
-// Display TV Show Details
+/* ------------------------Display TV Show Details------------------------- */
 async function displayTVShowDetails(e) {
   showSpinner();
   let showId = '';
@@ -211,9 +239,14 @@ async function displayTVShowDetails(e) {
     showId = window.location.search.split('=')[1];
   }
   try {
-    const { name, overview, poster_path, first_air_date } = await fetchData(
-      `/tv/${showId}`
-    );
+    const {
+      name,
+      overview,
+      poster_path,
+      first_air_date,
+      vote_average,
+      backdrop_path,
+    } = await fetchData(`/tv/${showId}`);
     hideSpinner();
     const [year, month, day] = first_air_date.split('-');
     // Get Elements
@@ -233,7 +266,12 @@ async function displayTVShowDetails(e) {
 
     // Setting Attributes
     showImageContainer.setAttribute('class', 'show-image-container');
-    image.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
+    image.setAttribute(
+      'src',
+      poster_path
+        ? `https://image.tmdb.org/t/p/w500${poster_path}`
+        : './images/no-image.jpg'
+    );
     image.setAttribute('alt', 'Show Image');
     showRating.setAttribute('class', 'show-rating');
     icon.setAttribute('class', 'fa fa-solid fa-star');
@@ -248,12 +286,13 @@ async function displayTVShowDetails(e) {
 
     // Appending Elements
     showImageContainer.appendChild(image);
-    showRating.append(icon, '8/10');
+    showRating.append(icon, `${vote_average.toFixed(1)}/10`);
     detailsContainer.appendChild(showImageContainer);
     detailsContainer.appendChild(heading2);
     detailsContainer.appendChild(showRating);
     detailsContainer.appendChild(releaseDate);
     detailsContainer.appendChild(showDescription);
+    addBackDropImage(backdrop_path);
   } catch (err) {
     console.log(err);
   }
@@ -287,15 +326,6 @@ async function initTVShows() {
     showErrorMessage();
   }
 }
-
-// Script for Movie Details
-function initMovieDetails() {}
-
-// Script for TV Details
-function initTVDetails() {}
-
-// Script for Search
-function initSearch() {}
 
 // Init App
 function init() {
