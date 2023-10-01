@@ -314,6 +314,21 @@ a {
   display: none;
 }
 
+.error {
+  color: #fff;
+  flex-grow: 1;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error p {
+  background-color: red;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
 /********************* FOOTER STYLES **********************/
 
 .footer--container {

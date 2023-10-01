@@ -19,7 +19,12 @@ function highlightActiveLink() {
 }
 
 // Error
-function showErrorMessage() {}
+function showErrorMessage(message, container) {
+  const div = document.createElement('div');
+  div.setAttribute('class', 'error');
+  div.innerHTML = `<p>${message}</p>`;
+  container.appendChild(div);
+}
 
 // Show Spinner
 function showSpinner() {
@@ -34,11 +39,15 @@ function hideSpinner() {
 }
 
 // Fetch Data
-async function fetchData(endpoint, params = {}) {
+async function fetchData(endpoint, searchParams = null) {
   const API_URL = 'https://api.themoviedb.org/3';
   const API_TOKEN =
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZGE1MzkwNDg2YWJiMGVjMzEzZTkxM2NmMTg0MDZkOSIsInN1YiI6IjY1MTc4YTdjZDQ2NTM3MDllMDA2MjcwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iw6TG1sCyAv8psbBrVxgUbstYb_AFpzYtyHnjms9dQI';
-  const res = await fetch(API_URL + endpoint, {
+  const url = searchParams
+    ? `${API_URL}${endpoint}/${searchParams.type}?query=${searchParams.search_term}`
+    : `${API_URL}${endpoint}`;
+  const res = await fetch(url, {
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
     },
@@ -48,7 +57,7 @@ async function fetchData(endpoint, params = {}) {
   return data;
 }
 
-/* ------------------------------ Add Background Image --------------------------------- */
+/* ----------------------- Add Background Image -------------------- */
 function addBackDropImage(imageUrl) {
   const div = document.createElement('div');
   div.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${imageUrl})`;
@@ -298,32 +307,93 @@ async function displayTVShowDetails(e) {
   }
 }
 
+/*-------------------------- Display Search Results -------------------------- */
+function displaySearchResults(searchResults, type) {
+  const queryCardsContainer = document.querySelector(
+    '.query-result-cards-container'
+  );
+  type === 'movie'
+    ? (queryCardsContainer.classList.add('movie-cards-container'),
+      displayMovies(searchResults))
+    : (queryCardsContainer.classList.add('show-cards-container'),
+      displayTVShows(searchResults));
+}
+
 // Script for Home/Movies
 async function initMovies() {
   showSpinner();
-  try {
-    setTimeout(async () => {
+  setTimeout(async () => {
+    try {
       const { results: movies } = await fetchData('/movie/popular');
       hideSpinner();
       displayMovies(movies);
-    }, 1000);
-  } catch (err) {
-    showErrorMessage();
-  }
+    } catch (err) {
+      hideSpinner();
+      showErrorMessage(
+        "Couldn't Fetch Movies",
+        document.querySelector('.popular-movies-container')
+      );
+    }
+  }, 1000);
 }
 
 // Script for Shows
 async function initTVShows() {
   showSpinner();
-  try {
-    setTimeout(async () => {
+  setTimeout(async () => {
+    try {
       const { results: shows } = await fetchData('/tv/popular');
       console.log(shows);
       hideSpinner();
       displayTVShows(shows);
-    }, 1000);
-  } catch (err) {
-    showErrorMessage();
+    } catch (err) {
+      hideSpinner();
+      showErrorMessage(
+        "Couldn't Fetch TV Shows",
+        document.querySelector('.popular-shows-container')
+      );
+    }
+  }, 1000);
+}
+
+// Script For Search
+async function initSearch() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const searchParams = {
+    search_term: urlParams.get('search-query'),
+    type: urlParams.get('type'),
+  };
+  searchParams.type === 'movie'
+    ? document.querySelector('#movie').setAttribute('checked', true)
+    : document.querySelector('#tv-shows').setAttribute('checked', true);
+  if (searchParams.search_term) {
+    showSpinner();
+    try {
+      const { results: searchResults } = await fetchData(
+        '/search',
+        searchParams
+      );
+      if (searchResults.length === 0) {
+        hideSpinner();
+        showErrorMessage(
+          'No Results',
+          document.querySelector('.query-results-container')
+        );
+        document.querySelector('.error p').style.backgroundColor = '#051320';
+        return;
+      }
+      displaySearchResults(searchResults, searchParams.type);
+      hideSpinner();
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    hideSpinner();
+    showErrorMessage(
+      'Please enter a search message',
+      document.querySelector('.error-container')
+    );
   }
 }
 

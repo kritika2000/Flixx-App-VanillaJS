@@ -29,22 +29,18 @@
           <!-- Search Movies Section -->
           <section class="search-movies">
             <div class="search-movies-container">
-              <form>
+              <form action="/search.html">
+                <div class="error-container"></div>
                 <div class="radio-controls-container">
                   <input
                     type="radio"
                     name="type"
                     id="movies"
-                    value="movies"
+                    value="movie"
                     checked
                   />
                   <label for="movies">Movies</label>
-                  <input
-                    type="radio"
-                    name="type"
-                    id="tv-shows"
-                    value="tv-shows"
-                  />
+                  <input type="radio" name="type" id="tv-shows" value="tv" />
                   <label for="tv-shows">TV Shows</label>
                 </div>
                 <div class="search-query-container">
@@ -66,48 +62,10 @@
           <section class="query-results">
             <div class="query-results-container">
               <h2>Results</h2>
-              <div class="query-result-cards-container">
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
-                <div class="card">
-                  <img src="./images/no-image.jpg" />
-                  <p>Movie Title</p>
-                  <p>Release: xx/xx/xxxx</p>
-                </div>
+              <div class="spinner">
+                <i class="fa fa-solid fa-spinner fa-spin fa-2x"></i>
               </div>
+              <div class="query-result-cards-container"></div>
             </div>
           </section>
         </div>
